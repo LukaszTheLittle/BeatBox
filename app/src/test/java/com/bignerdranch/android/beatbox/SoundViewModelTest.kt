@@ -1,7 +1,7 @@
 package com.bignerdranch.android.beatbox
 
 import org.hamcrest.core.Is.`is`
-import org.junit.Assert.assertThat
+import org.junit.Assert.assertSame
 import org.junit.Before
 import org.junit.Test
 
@@ -19,7 +19,7 @@ class SoundViewModelTest {
 
     @Test
     fun exposesSoundNameAsTitle() {
-        assertThat(subject.title, `is` (sound.name))
+        assertSame(subject.title, `is` (sound.name))
     }
 
 }
