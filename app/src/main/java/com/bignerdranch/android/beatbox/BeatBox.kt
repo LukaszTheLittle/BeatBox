@@ -1,11 +1,16 @@
 package com.bignerdranch.android.beatbox
 
 import android.content.res.AssetManager
+import android.media.SoundPool
 import android.util.Log
 
 class BeatBox(private val assets: AssetManager) {
 
     val sounds: List<Sound>
+
+    private val soundPool = SoundPool.Builder()
+        .setMaxStreams(MAX_SOUNDS)
+        .build()
 
     init {
         sounds = loadSounds()
@@ -33,6 +38,7 @@ class BeatBox(private val assets: AssetManager) {
     companion object {
         private const val TAG = "BeatBox"
         private const val SOUNDS_FOLDER = "sample_sounds"
+        private const val MAX_SOUNDS = 5
     }
 }
 
