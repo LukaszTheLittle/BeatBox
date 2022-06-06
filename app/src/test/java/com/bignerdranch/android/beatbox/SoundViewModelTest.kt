@@ -21,4 +21,9 @@ class SoundViewModelTest {
         assertSame(subject.title, (sound.name))
     }
 
+    @Test
+    fun callsBeatBoxPlayOnButtonClicked() {
+        subject.onButtonClicked()
+    }
+
 }
