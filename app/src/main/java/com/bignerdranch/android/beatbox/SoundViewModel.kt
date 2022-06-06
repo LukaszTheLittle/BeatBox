@@ -5,6 +5,9 @@ import androidx.databinding.Bindable
 
 class SoundViewModel(private val beatBox: BeatBox): BaseObservable() {
     fun onButtonClicked() {
+        sound?.let {
+            beatBox.play(it)
+        }
     }
 
     var sound: Sound? = null
