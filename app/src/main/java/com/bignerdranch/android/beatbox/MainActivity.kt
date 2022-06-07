@@ -11,28 +11,27 @@ import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var beatBox: BeatBox
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        beatBox = BeatBox(assets)
 
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
-            adapter = SoundAdapter(beatBox.sounds)
+            adapter = SoundAdapter(BeatBox(assets).sounds)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        beatBox.release()
+        BeatBox(assets).release()
     }
 
-    private inner class SoundHolder(private val binding: ListItemSoundBinding):
+    private inner class SoundHolder(
+        private val binding: ListItemSoundBinding,
+        beatBox: BeatBox
+        ):
             RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -58,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                 parent,
                 false
             )
-            return SoundHolder(binding)
+            return SoundHolder(binding, BeatBox(assets))
         }
 
         override fun onBindViewHolder(holder: SoundHolder, position: Int) {
