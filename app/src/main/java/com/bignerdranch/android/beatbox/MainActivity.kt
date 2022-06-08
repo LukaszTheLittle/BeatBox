@@ -11,6 +11,8 @@ import com.bignerdranch.android.beatbox.databinding.ListItemSoundBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private val soundAdapter: SoundAdapter = SoundAdapter(BeatBox(assets))
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,13 +21,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(context, 3)
-            adapter = SoundAdapter(BeatBox(assets).sounds)
+            adapter = soundAdapter
         }
     }
 
     override fun onDestroy() {
+        soundAdapter.beatBoxRelease()
         super.onDestroy()
-        BeatBox(assets).release()
     }
 
     private inner class SoundHolder(
@@ -46,7 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private inner class SoundAdapter(private val sounds: List<Sound>):
+    private inner class SoundAdapter(
+        private val beatBox: BeatBox
+        ):
         RecyclerView.Adapter<SoundHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -57,14 +61,18 @@ class MainActivity : AppCompatActivity() {
                 parent,
                 false
             )
-            return SoundHolder(binding, BeatBox(assets))
+            return SoundHolder(binding, beatBox)
         }
 
         override fun onBindViewHolder(holder: SoundHolder, position: Int) {
-            val sound = sounds[position]
+            val sound = beatBox.sounds[position]
             holder.bind(sound)
         }
 
-        override fun getItemCount() = sounds.size
+        override fun getItemCount() = beatBox.sounds.size
+
+        fun beatBoxRelease() {
+            beatBox.release()
+        }
     }
 }
