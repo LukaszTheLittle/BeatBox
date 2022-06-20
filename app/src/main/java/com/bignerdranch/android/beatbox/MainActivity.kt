@@ -8,7 +8,7 @@ import com.bignerdranch.android.beatbox.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val soundAdapter: SoundAdapter = SoundAdapter(BeatBox(assets))
+    private val soundAdapter: SoundAdapter by lazy {SoundAdapter(BeatBox(assets))}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
